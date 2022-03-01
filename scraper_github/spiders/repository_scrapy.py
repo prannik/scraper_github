@@ -6,11 +6,14 @@ from scraper_github.items import ScraperGithubItem
 class BookSpider(scrapy.Spider):
     name = 'parsing'
     allowed_domains = ['github.com']
-    links = []
-    with open('list_repository.txt') as file:
-        for line in file:
-            links.append(line)
-    start_urls = links
+
+    def __init__(self, path='', **kwargs):
+        links = []
+        with open(path) as file:
+            for line in file:
+                links.append(line)
+        self.start_urls = links
+        super().__init__(**kwargs)
 
     def parse(self, response, **kwargs):
 
