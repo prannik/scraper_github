@@ -3,7 +3,7 @@ import scrapy
 from scraper_github.items import ScraperGithubItem
 
 
-class BookSpider(scrapy.Spider):
+class GitHubSpider(scrapy.Spider):
     name = 'parsing'
     allowed_domains = ['github.com']
 
@@ -16,7 +16,6 @@ class BookSpider(scrapy.Spider):
         super().__init__(**kwargs)
 
     def parse(self, response, **kwargs):
-
         rep_link = response.css('a.UnderlineNav-item ::attr(href)')[1].get()
         if 'orgs' in rep_link.split('/'):
             yield response.follow(rep_link, callback=self.parse_org)
@@ -60,14 +59,14 @@ class BookSpider(scrapy.Spider):
         forks = response.css('span.Counter ::attr(title)').get()
         forks = int(forks.replace(',', '')) if ',' in forks else int(forks)
         watching = response.css('div.mt-2 strong::text')[1].get()
-        watching = int(watching.replace('k', '').replace('.', '')) * 1000 if ('k'and '.') in watching else int(watching)
+        watching = watching.replace('.', '') * 1000 if '.' in watching else watching
+        watching = int(watching.replace('k', '')) * 1000 if 'k' in watching else int(watching)
         commits = response.css('span.d-none.d-sm-inline strong::text').get()
         commits = int(commits.replace(',', '')) if ',' in commits else int(commits)
 
         last_commit = response.css("div.css-truncate.css-truncate-overflow.color-fg-muted a::text").getall()
         if len(last_commit) == 0:
             last_commit = {}
-
         else:
             last_commit = {
                 'author': last_commit[0],

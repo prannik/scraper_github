@@ -1,4 +1,4 @@
-from sqlalchemy import TEXT, Column, String, create_engine, INTEGER
+from sqlalchemy import INTEGER, TEXT, Column, String, create_engine
 from sqlalchemy.dialects.postgresql import JSONB
 from sqlalchemy.engine.base import Engine
 from sqlalchemy.engine.url import URL

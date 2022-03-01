@@ -1,4 +1,3 @@
-from itemadapter import ItemAdapter
 from sqlalchemy.orm import sessionmaker
 
 from .models import RepItems, create_items_table, db_connect
