@@ -7,7 +7,7 @@ class BookSpider(scrapy.Spider):
     name = 'parsing'
     allowed_domains = ['github.com']
     links = []
-    with open("list_repository.txt") as file:
+    with open('list_repository.txt') as file:
         for line in file:
             links.append(line)
     start_urls = links
